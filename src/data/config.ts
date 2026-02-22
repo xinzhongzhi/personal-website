@@ -18,7 +18,9 @@ export const siteConfig = {
     { name: "经历", href: "/timeline" },
     { name: "项目", href: "/projects" },
     { name: "照片墙", href: "/gallery" },
+    { name: "视频", href: "/videos" },
     { name: "联系我", href: "/contact" },
+    { name: "管理", href: "/admin" },
   ],
 };
 
