@@ -4,10 +4,10 @@ export const siteConfig = {
   title: "全栈开发者 & 创业者",
   description: "热爱技术、创新和创造的开发者，致力于用代码改变世界。",
   avatar: "/images/avatar.jpg",
-  email: "your-email@example.com",
+  email: "xzzak0@gmail.com",
   location: "中国",
   social: {
-    github: "https://github.com/yourusername",
+    github: "https://github.com/xinzhongzhi",
     linkedin: "https://linkedin.com/in/yourusername",
     twitter: "https://twitter.com/yourusername",
     wechat: "your-wechat-id",
