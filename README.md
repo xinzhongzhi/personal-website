@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 辛忠志 - 个人网站
 
-## Getting Started
+一个使用 Next.js + TypeScript + Tailwind CSS 构建的现代个人网站。
 
-First, run the development server:
+## 🚀 技术栈
+
+- **框架**: [Next.js 16](https://nextjs.org/) (App Router)
+- **语言**: TypeScript
+- **样式**: Tailwind CSS 4
+- **动画**: Framer Motion
+- **图标**: Lucide React
+- **部署**: Vercel
+
+## 📋 功能模块
+
+| 页面 | 路径 | 说明 |
+|------|------|------|
+| 首页 | `/` | Hero + 快速简介 + 精选项目 |
+| 关于我 | `/about` | 个人自传 + 技能树 + 兴趣爱好 |
+| 经历 | `/timeline` | 工作和教育经历时间线 |
+| 项目展示 | `/projects` | 作品集展示 |
+| 照片墙 | `/gallery` | 图片画廊（支持分类筛选） |
+| 联系我 | `/contact` | 联系表单 + 社交媒体链接 |
+
+## 🛠️ 本地开发
 
 ```bash
+# 安装依赖
+npm install
+
+# 启动开发服务器
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# 构建生产版本
+npm run build
+
+# 启动生产服务器
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✏️ 自定义内容
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+所有网站内容都集中在 `src/data/config.ts` 文件中，修改该文件即可更新：
+- 个人信息（姓名、头衔、简介）
+- 社交媒体链接
+- 关于我的文字内容
+- 工作和教育经历
+- 项目展示
+- 照片墙
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📸 添加图片
 
-## Learn More
+1. 将头像放入 `public/images/avatar.jpg`
+2. 将项目截图放入 `public/images/projects/`
+3. 将照片放入 `public/images/gallery/`
+4. 在 `src/data/config.ts` 中更新对应路径
 
-To learn more about Next.js, take a look at the following resources:
+## 🌐 部署到 Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. 将代码推送到 GitHub
+2. 在 [Vercel](https://vercel.com) 登录并导入该 GitHub 仓库
+3. Vercel 会自动检测 Next.js 项目并完成部署
+4. 获得 `https://your-project.vercel.app` 访问链接
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+每次推送代码到 `main` 分支，Vercel 会自动重新部署。
 
-## Deploy on Vercel
+## 📄 License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
