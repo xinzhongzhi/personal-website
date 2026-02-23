@@ -51,7 +51,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     }
 
     const blob = await put(pathname, file, {
-      access: "private",
+      access: "public",
       token,
     });
 
