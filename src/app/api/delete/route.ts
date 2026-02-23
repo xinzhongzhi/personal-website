@@ -9,7 +9,8 @@ export async function POST(request: Request): Promise<NextResponse> {
       return NextResponse.json({ error: "No URL provided" }, { status: 400 });
     }
 
-    await del(url);
+    const token = process.env.BLOB_READ_WRITE_TOKEN;
+    await del(url, { token });
 
     return NextResponse.json({ success: true });
   } catch (error) {

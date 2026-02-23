@@ -16,7 +16,8 @@ export async function GET(request: Request): Promise<NextResponse> {
       prefix = `${prefix}${category}/`;
     }
 
-    const { blobs } = await list({ prefix: prefix || undefined });
+    const token = process.env.BLOB_READ_WRITE_TOKEN;
+    const { blobs } = await list({ prefix: prefix || undefined, token });
 
     const files = blobs.map((blob) => {
       const isVideo = blob.pathname.startsWith("videos/");
