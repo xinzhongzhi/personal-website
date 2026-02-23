@@ -102,26 +102,27 @@ export default function GalleryPage() {
                 onClick={() => setSelectedPhoto(photo.src)}
               >
                 {photo.isBlob ? (
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={photo.src}
-                    alt={photo.alt}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                    onError={e => {
-                      e.currentTarget.style.display = "none";
-                      const fallback = e.currentTarget.nextElementSibling;
-                      if (fallback) fallback.style.display = "flex";
-                      // 控制台输出详细错误
-                      // @ts-ignore
-                      console.error("图片加载失败:", photo.src, photo.alt);
-                    }}
-                  />
-                  {/* fallback 占位 */}
-                  <div style={{display: "none"}} className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-red-200/30 to-accent/10">
-                    <Camera size={32} className="text-red-400/60" />
-                    <span className="text-xs text-red-400 mt-2">加载失败</span>
-                  </div>
+                  <span style={{position: "relative", display: "block", width: "100%", height: "100%"}}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={photo.src}
+                      alt={photo.alt}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                      onError={e => {
+                        e.currentTarget.style.display = "none";
+                        const fallback = e.currentTarget.nextElementSibling;
+                        if (fallback) fallback.style.display = "flex";
+                        // 控制台输出详细错误
+                        // @ts-ignore
+                        console.error("图片加载失败:", photo.src, photo.alt);
+                      }}
+                    />
+                    <div style={{display: "none", position: "absolute", inset: 0}} className="flex flex-col items-center justify-center bg-gradient-to-br from-red-200/30 to-accent/10">
+                      <Camera size={32} className="text-red-400/60" />
+                      <span className="text-xs text-red-400 mt-2">加载失败</span>
+                    </div>
+                  </span>
                 ) : (
                   <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10">
                     <Camera
