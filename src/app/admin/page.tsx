@@ -81,11 +81,15 @@ export default function AdminPage() {
       formData.append("type", file.type.startsWith("video/") ? "video" : "image");
 
       try {
+        // 增加超时机制（60秒）
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 60000);
         const res = await fetch("/api/upload", {
           method: "POST",
           body: formData,
+          signal: controller.signal,
         });
-
+        clearTimeout(timeoutId);
         if (res.ok) {
           successCount++;
         } else {
@@ -93,7 +97,10 @@ export default function AdminPage() {
           console.error(`Upload failed for ${file.name}:`, err.error);
           failCount++;
         }
-      } catch {
+      } catch (err) {
+        if ((err as any).name === "AbortError") {
+          showToast("error", `上传超时：${file.name}`);
+        }
         failCount++;
       }
     }
