@@ -102,7 +102,7 @@ export default function GalleryPage() {
                 onClick={() => setSelectedPhoto(photo.src)}
               >
                 {photo.isBlob ? (
-                  /* eslint-disable-next-line @next/next/no-img-element */
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={photo.src}
                     alt={photo.alt}
@@ -117,7 +117,7 @@ export default function GalleryPage() {
                       console.error("图片加载失败:", photo.src, photo.alt);
                     }}
                   />
-                  // fallback 占位
+                  {/* fallback 占位 */}
                   <div style={{display: "none"}} className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-red-200/30 to-accent/10">
                     <Camera size={32} className="text-red-400/60" />
                     <span className="text-xs text-red-400 mt-2">加载失败</span>
