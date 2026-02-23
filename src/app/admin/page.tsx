@@ -75,32 +75,50 @@ export default function AdminPage() {
       const file = fileList[i];
       setUploadProgress(`正在上传 ${file.name} (${i + 1}/${fileList.length})`);
 
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("category", selectedCategory);
-      formData.append("type", file.type.startsWith("video/") ? "video" : "image");
-
+      // 1. 先请求直传URL和表单字段
+      const metaForm = new FormData();
+      metaForm.append("file", file);
+      metaForm.append("category", selectedCategory);
+      metaForm.append("type", file.type.startsWith("video/") ? "video" : "image");
+      let uploadUrl: string | null = null;
+      let uploadFields: Record<string, string> = {};
       try {
-        // 增加超时机制（60秒）
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 60000);
-        const res = await fetch("/api/upload", {
+        const metaRes = await fetch("/api/upload-url", {
           method: "POST",
-          body: formData,
-          signal: controller.signal,
+          body: metaForm,
         });
-        clearTimeout(timeoutId);
-        if (res.ok) {
+        if (!metaRes.ok) {
+          const err = await metaRes.json();
+          showToast("error", `获取直传URL失败: ${err.error}`);
+          failCount++;
+          continue;
+        }
+        const { url, fields } = await metaRes.json();
+        uploadUrl = url;
+        uploadFields = fields;
+      } catch (err) {
+        showToast("error", `获取直传URL异常: ${(err as any).message}`);
+        failCount++;
+        continue;
+      }
+
+      // 2. 构造直传表单并上传
+      const uploadForm = new FormData();
+      Object.entries(uploadFields).forEach(([k, v]) => uploadForm.append(k, v));
+      uploadForm.append("file", file);
+      try {
+        const uploadRes = await fetch(uploadUrl!, {
+          method: "POST",
+          body: uploadForm,
+        });
+        if (uploadRes.ok) {
           successCount++;
         } else {
-          const err = await res.json();
-          console.error(`Upload failed for ${file.name}:`, err.error);
+          showToast("error", `上传失败: ${file.name}`);
           failCount++;
         }
       } catch (err) {
-        if ((err as any).name === "AbortError") {
-          showToast("error", `上传超时：${file.name}`);
-        }
+        showToast("error", `上传异常: ${(err as any).message}`);
         failCount++;
       }
     }
