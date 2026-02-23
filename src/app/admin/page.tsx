@@ -67,19 +67,45 @@ export default function AdminPage() {
   const handleUpload = async (fileList: FileList | null) => {
     if (!fileList || fileList.length === 0) return;
 
+    // 支持格式和大小
+    const allowedImageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp", "image/svg+xml"];
+    const allowedVideoTypes = ["video/mp4", "video/webm", "video/ogg", "video/quicktime"];
+    const allowedTypes = [...allowedImageTypes, ...allowedVideoTypes];
+    const maxImageSize = 10 * 1024 * 1024; // 10MB
+    const maxVideoSize = 4.5 * 1024 * 1024; // 4.5MB
+
     setUploading(true);
     let successCount = 0;
     let failCount = 0;
 
     for (let i = 0; i < fileList.length; i++) {
       const file = fileList[i];
+      const isVideo = file.type.startsWith("video/");
+      // 前端校验类型
+      if (!allowedTypes.includes(file.type)) {
+        showToast("error", `不支持的文件格式: ${file.name}`);
+        failCount++;
+        continue;
+      }
+      // 前端校验大小
+      if (!isVideo && file.size > maxImageSize) {
+        showToast("error", `图片过大: ${file.name}，最大10MB`);
+        failCount++;
+        continue;
+      }
+      if (isVideo && file.size > maxVideoSize) {
+        showToast("error", `视频过大: ${file.name}，最大4.5MB`);
+        failCount++;
+        continue;
+      }
+
       setUploadProgress(`正在上传 ${file.name} (${i + 1}/${fileList.length})`);
 
       // 1. 先请求直传URL和表单字段
       const metaForm = new FormData();
       metaForm.append("file", file);
       metaForm.append("category", selectedCategory);
-      metaForm.append("type", file.type.startsWith("video/") ? "video" : "image");
+      metaForm.append("type", isVideo ? "video" : "image");
       let uploadUrl: string | null = null;
       let uploadFields: Record<string, string> = {};
       try {
@@ -244,8 +270,9 @@ export default function AdminPage() {
                 <Upload size={40} className="mx-auto mb-4 text-primary/60" />
                 <p className="text-lg font-medium mb-2">拖拽文件到这里，或点击上传</p>
                 <p className="text-sm text-muted">
-                  支持 JPG, PNG, GIF, WebP, SVG（最大 10MB）| MP4, WebM（最大 50MB）
+                  支持 JPG, PNG, GIF, WebP, SVG（最大 10MB）| MP4, WebM, OGG, MOV（最大 4.5MB）
                 </p>
+                <p className="text-xs text-muted">如需上传大视频，请先压缩或转码</p>
               </>
             )}
           </div>
