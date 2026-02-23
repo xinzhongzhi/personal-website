@@ -111,7 +111,7 @@ export default function GalleryPage() {
                       loading="lazy"
                       onError={e => {
                         e.currentTarget.style.display = "none";
-                        const fallback = e.currentTarget.nextElementSibling;
+                        const fallback = e.currentTarget.nextElementSibling as HTMLElement | null;
                         if (fallback) fallback.style.display = "flex";
                         // 控制台输出详细错误
                         // @ts-ignore
