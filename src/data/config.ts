@@ -19,6 +19,7 @@ export const siteConfig = {
     { name: "项目", href: "/projects" },
     { name: "照片墙", href: "/gallery" },
     { name: "视频", href: "/videos" },
+    { name: "能力规划", href: "/capabilities" },
     { name: "联系我", href: "/contact" },
     { name: "管理", href: "/admin" },
   ],
